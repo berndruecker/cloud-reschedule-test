@@ -1,19 +1,13 @@
 package io.berndruecker.rescheduletest.cloudrescheduletest;
 
-import io.zeebe.client.ZeebeClient;
-import io.zeebe.client.api.response.Topology;
-import io.zeebe.spring.client.EnableZeebeClient;
-import io.zeebe.spring.client.ZeebeClientLifecycle;
-import io.zeebe.spring.client.annotation.ZeebeDeployment;
+import io.camunda.zeebe.client.ZeebeClient;
+import io.camunda.zeebe.spring.client.EnableZeebeClient;
+import io.camunda.zeebe.spring.client.annotation.ZeebeDeployment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.web.bind.annotation.GetMapping;
-
-import javax.annotation.PostConstruct;
 
 @SpringBootApplication
 @EnableZeebeClient
@@ -27,14 +21,6 @@ public class CloudRescheduleTestApplication {
 		ZeebeClient workflowEngineClient = context.getBean(ZeebeClient.class );
 
 		startInstancesInALoop(workflowEngineClient);
-	}
-
-	@Autowired
-	private ZeebeClientLifecycle client;
-	@GetMapping("/status")
-	public String getStatus() {
-		Topology topology = client.newTopologyRequest().send().join();
-		return topology.toString();
 	}
 
 	public static void startInstancesInALoop(ZeebeClient workflowEngineClient) {
